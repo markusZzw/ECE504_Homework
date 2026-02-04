@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <style>
+    .container {
+      position: relative;
+      width: 575px;
+      height: 313px;
+      margin-bottom: 20px;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 575px;
+      height: 313px;
+      cursor: crosshair;
+      background: rgba(0,0,0,0);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ===== Image 1 ===== -->
+<div>
+  Image 1 clicks: <span id="image_1_coords_click"></span>
+  <div id="image_1_coords_now"></div>
+</div>
+
+<div class="container">
+  <iframe
+    src="https://drive.google.com/file/d/1DfTETu5Xuz9lZP7bG2FNd1sc3ANS5M6_/preview"
+    width="575"
+    height="313"
+    style="border:none;">
+  </iframe>
+  <div class="overlay" id="overlay_1"></div>
+</div>
+
+<!-- ===== Image 2 ===== -->
+<div>
+  Image 2 clicks: <span id="image_2_coords_click"></span>
+  <div id="image_2_coords_now"></div>
+</div>
+
+<div class="container">
+  <iframe
+    src="https://drive.google.com/file/d/174jvzyPTRvD9xTHttFIn1u3S3doATZ68/preview"
+    width="575"
+    height="313"
+    style="border:none;">
+  </iframe>
+  <div class="overlay" id="overlay_2"></div>
+</div>
+
+<script>
+function attachOverlay(overlayId, nowId, clickId) {
+  let current_coords = "";
+
+  $('#' + overlayId).mousemove(function(e) {
+    const offset = $(this).offset();
+    const x = Math.round(e.pageX - offset.left);
+    const y = Math.round(e.pageY - offset.top);
+    current_coords = x + ', ' + y;
+    $('#' + nowId).html('Current: ' + current_coords + '.');
+  }).mouseleave(function() {
+    $('#' + nowId).html('');
+  }).click(function() {
+    $('#' + clickId).html(
+      $('#' + clickId).html() + '(' + current_coords + ') '
+    );
+  });
+}
+
+attachOverlay('overlay_1', 'image_1_coords_now', 'image_1_coords_click');
+attachOverlay('overlay_2', 'image_2_coords_now', 'image_2_coords_click');
+</script>
+
+</body>
+</html>
